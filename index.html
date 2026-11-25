@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b5bdb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="復習">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<title>復習リマインダー</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--tx:#1d1d1b;--sub:#6b6a65;--ac:#3b5bdb;--acx:#fff;--bd:#e2e0d8;--r0:#e03131;--r1:#e8890c;--r2:#2f9e44;--r3:#1c7ed6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--card:#222220;--tx:#eeeeea;--sub:#9a9993;--ac:#748ffc;--acx:#10131f;--bd:#363633;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151514;--card:#222220;--tx:#eeeeea;--sub:#9a9993;--ac:#748ffc;--acx:#10131f;--bd:#363633;color-scheme:dark}
+:root[data-theme="sepia"]{--bg:#f4ecd8;--card:#fbf5e6;--tx:#3b3226;--sub:#7a6a55;--ac:#b5651d;--acx:#fff;--bd:#e0d2b4;color-scheme:light}
+:root[data-theme="ocean"]{--bg:#0f1b2d;--card:#17283f;--tx:#e6eef9;--sub:#93a7c3;--ac:#5aa9ff;--acx:#08121f;--bd:#25405f;color-scheme:dark}
+:root[data-theme="forest"]{--bg:#eef4ec;--card:#fbfdfa;--tx:#1d2b1f;--sub:#5f7263;--ac:#2f8f4e;--acx:#fff;--bd:#d3e0d0;color-scheme:light}
+:root[data-theme="sakura"]{--bg:#fbf0f3;--card:#fff;--tx:#3a2430;--sub:#8a6a78;--ac:#d6567f;--acx:#fff;--bd:#f0d5de;color-scheme:light}
+:root[data-theme="violet"]{--bg:#1a1426;--card:#251c36;--tx:#efe9fb;--sub:#a99cc4;--ac:#a98bff;--acx:#140d22;--bd:#3a2e55;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.6}
+main{max-width:560px;margin:0 auto;padding:10px 12px 80px}
+h1{font-size:17px;margin:0 0 8px}
+.stats{display:flex;gap:6px;margin-bottom:8px}
+.stat{flex:1;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:5px;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;color:var(--sub)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:8px}
+.front{font-size:18px;white-space:pre-wrap;min-height:40px}
+.back{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd);white-space:pre-wrap;color:var(--sub)}
+.tag{display:inline-block;font-size:11px;background:var(--bd);border-radius:99px;padding:1px 9px;margin:0 4px 8px 0;color:var(--sub)}
+.meta{font-size:12px;color:var(--sub);margin:0 0 4px}
+.note{font-size:12px;color:var(--sub);margin:4px 0 8px}
+button{font:inherit;border:0;border-radius:12px;padding:10px;cursor:pointer;background:var(--ac);color:var(--acx);width:100%}
+button.ghost{background:transparent;color:var(--sub);border:1px solid var(--bd)}
+button:disabled{opacity:.4;cursor:default}
+.rates{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:4px}
+.rates button{padding:10px 2px;font-size:26px;color:#fff;line-height:1.2}
+.pk{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px}
+.pk button{width:auto;padding:5px 10px;background:transparent;color:var(--tx);border:1px solid var(--bd);font-size:14px}
+.pk button.on{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:700}
+input,textarea,select{width:100%;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px;margin-bottom:6px}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.row small{color:var(--sub);display:block}
+.row .x{width:auto;padding:4px 10px;background:transparent;color:var(--r0);border:1px solid var(--bd);font-size:12px;margin-left:4px}
+.row .x.u{color:var(--ac)}
+.empty{text-align:center;color:var(--sub);padding:40px 0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.iv{margin:4px 0 6px}
+.ivh{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--sub)}
+.ivh b{font-size:18px;color:var(--tx)}
+.ivt{display:flex;align-items:baseline;gap:8px}
+.seg{display:flex;gap:2px}
+.seg button{width:auto;padding:3px 10px;font-size:12px;background:transparent;color:var(--sub);border:1px solid var(--bd);border-radius:8px}
+.seg button.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+input.rg{border:0;padding:0;background:transparent;margin:4px 0 0;height:26px;accent-color:var(--ac)}
+.tks{position:relative;height:42px}
+.tk{position:absolute;top:0;transform:translateX(-50%);width:auto;padding:11px 4px;font-size:14px;background:transparent;color:var(--sub);border-radius:10px}
+.tk.on{background:var(--ac);color:var(--acx)}
+.ed{float:right;width:auto;padding:2px 10px;font-size:12px;background:transparent;color:var(--ac);border:1px solid var(--bd);margin:0 0 4px 8px}
+.gm{display:block;margin:6px auto;width:170px;max-width:55%}
+.shake{animation:shake .25s infinite}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+.spin{transform-origin:100px 162px;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{animation:pop .5s ease-out}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+/* 連続日数: ふだんは「今日やった数」と同じ見た目。更新した直後だけ色つきで光り、少しずつ元に戻る */
+#streak{display:inline-block;font-style:normal}
+.roll{animation:kacha .09s linear infinite}
+@keyframes kacha{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.don{animation:don .7s cubic-bezier(.25,1.7,.4,1) both}
+@keyframes don{0%{transform:scale(.5);opacity:.4}35%{transform:scale(1.9);opacity:1}65%{transform:scale(.92)}100%{transform:scale(1)}}
+.stat.lit{position:relative;z-index:2;animation:litbox 6s ease-out both}
+.stat.lit b{animation:litnum 6s ease-out both}
+@keyframes litbox{0%{border-color:var(--sg);box-shadow:0 0 14px var(--sg)}60%{border-color:var(--sg);box-shadow:0 0 10px var(--sg)}100%{border-color:var(--bd);box-shadow:0 0 0 rgba(0,0,0,0)}}
+@keyframes litnum{0%{color:var(--sc);text-shadow:0 0 9px var(--sg)}60%{color:var(--sc);text-shadow:0 0 7px var(--sg)}100%{color:var(--tx);text-shadow:0 0 0 rgba(0,0,0,0)}}
+.cdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;background:var(--sc);box-shadow:0 0 6px var(--sg);border:1px solid rgba(128,128,128,.35)}
+/* ガチャ: マシン自身が、淡いサイバーな光を周りに放つ */
+.shine{--lc:130,225,255;position:relative;display:flow-root;padding:14px 0}
+.shine::before{content:"";position:absolute;left:50%;top:50%;width:270px;height:270px;max-width:92%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(var(--lc),.62),rgba(var(--lc),.24) 55%,transparent 76%);animation:shinepulse 4.5s ease-in-out infinite;pointer-events:none}
+.shine::after{content:"";position:absolute;left:50%;top:50%;width:300px;height:300px;max-width:100%;transform:translate(-50%,-50%);background:repeating-conic-gradient(from 0deg,rgba(var(--lc),.3) 0 4deg,transparent 4deg 30deg);-webkit-mask:radial-gradient(closest-side,transparent 38%,#000 58%,transparent 98%);mask:radial-gradient(closest-side,transparent 38%,#000 58%,transparent 98%);animation:rays 45s linear infinite;pointer-events:none}
+.shine .gm{position:relative;z-index:1;filter:drop-shadow(0 0 6px rgba(var(--lc),.9)) drop-shadow(0 0 18px rgba(var(--lc),.55))}
+@keyframes shinepulse{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(.96)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}}
+@keyframes rays{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.shake,.spin,.pop,.roll,.don,.stat.lit,.stat.lit b,.shine::before,.shine::after{animation:none}}
+.cimg{display:block;max-width:100%;max-height:240px;border-radius:10px;margin-top:8px;cursor:zoom-in}
+.imgbtn{display:inline-block;border:1px dashed var(--bd);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--sub);cursor:pointer}
+.zimg{display:block;max-width:100%;max-height:78vh;margin:0 auto 10px;border-radius:10px;background:#fff}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{background:transparent;color:var(--sub);padding:8px 2px;font-size:12px}
+nav button.on{color:var(--ac);font-weight:700}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+'use strict';
+/* ===== 定数 ===== */
+var KEY = 'fukushu-v1', PREV = 'fukushu-v1-prev';
+var OPTS = [1, 3, 7, 11, 14, 18, 21];            // 復習間隔の候補（日）
+var SYM = ['×', '△', '○', '◎'];                  // 手応えの記号
+var COLORS = ['--r0', '--r1', '--r2', '--r3'];
+var TABS = [['today', '復習'], ['add', '追加'], ['list', '学習中'], ['sched', '予定'], ['gacha', 'ガチャ'], ['set', '設定']];
+var RSORTS = [['due', '期限が古い順'], ['weak', '手応えが悪い順'], ['rand', 'ランダム順'], ['tag', 'タグ順']];
+var THEMES = [   // [キー, 表示名, 見本の色1, 見本の色2]
+  ['auto', '自動', '#f6f5f1', '#151514'], ['light', '白', '#f6f5f1', '#3b5bdb'], ['dark', '黒', '#151514', '#748ffc'],
+  ['sepia', 'セピア', '#f4ecd8', '#b5651d'], ['ocean', 'ブルー', '#0f1b2d', '#5aa9ff'], ['forest', 'グリーン', '#eef4ec', '#2f8f4e'],
+  ['sakura', 'ピンク', '#fbf0f3', '#d6567f'], ['violet', 'パープル', '#1a1426', '#a98bff']
+];
+var GLOW_SEC = 6;   // 連続日数の数字が光っている時間（秒）。そのあと元の見た目に戻る
+var SCOLORS = [   // 連続日数の色（更新のたびに各20%で抽選）と、その日のガチャのあたり確率(%)。少しサイバーで、控えめな光
+  { key: 'white', name: '白', rate: 30, main: '#eef3ff', glow: 'rgba(214,226,255,.45)', rgb: '214,226,255' },
+  { key: 'green', name: '緑', rate: 40, main: '#5ee6a8', glow: 'rgba(94,230,168,.42)', rgb: '94,230,168' },
+  { key: 'cyan', name: '水色', rate: 50, main: '#62d8ff', glow: 'rgba(98,216,255,.42)', rgb: '98,216,255' },
+  { key: 'purple', name: '紫', rate: 60, main: '#b794ff', glow: 'rgba(183,148,255,.42)', rgb: '183,148,255' },
+  { key: 'gold', name: 'オレンジ金', rate: 70, main: '#ffbe55', glow: 'rgba(255,190,85,.45)', rgb: '255,190,85' }
+];
+var SORTS = [
+  ['due', '次回が近い順', function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; }],
+  ['new', '追加が新しい順', function (a, b) { return b.created - a.created; }],
+  ['old', '追加が古い順', function (a, b) { return a.created - b.created; }],
+  ['nmore', '復習回数が多い順', function (a, b) { return b.n - a.n; }],
+  ['nless', '復習回数が少ない順', function (a, b) { return a.n - b.n; }],
+  ['ivlong', '間隔が長い順', function (a, b) { return b.iv - a.iv; }],
+  ['ivshort', '間隔が短い順', function (a, b) { return a.iv - b.iv; }],
+  ['tag', 'タグ順', function (a, b) { return (a.tags[0] || '~').localeCompare(b.tags[0] || '~'); }],
+  ['weak', '手応えが悪い順（×△が多い）', function (a, b) { return weakN(b) - weakN(a) || cntR(b, 0) - cntR(a, 0); }],
+  ['good', '手応えが良い順（○◎が多い）', function (a, b) { return goodN(b) - goodN(a) || cntR(b, 3) - cntR(a, 3); }]
+];
+
+/* ===== 状態（保存されるデータ S ／ 画面の状態 ui ／ タグ絞り込み F） ===== */
+var S = { items: [], log: {}, sort: 'due' };       // 保存されるデータ
+var ui = { tab: 'today', queue: [], shown: {}, pick: {}, filter: '', openId: null, delId: null, pending: null, msg: '', bk: '', addTag: [], editTag: [], df: '', db: '', def: null, fopen: false, delTag: null, sel: {}, anim: false, from: '', err: '', hdate: '', hsym: 2, sw: 0, sday: null, sanim: false, sroll: '', srcol: null, pimg: { add: { f: null, b: null }, edit: { f: undefined, b: undefined } }, busy: false, zoom: null, imgStat: null, imsg: '', sgo: false, sstart: 0 };
+var F = { r: { tags: [], mode: 'and' }, l: { tags: [], mode: 'and' }, s: { tags: [], mode: 'and' } };   // タグ絞り込みの条件（復習用・一覧用・予定用）
+
+/* ===== ユーティリティ ===== */
+function $(id) { return document.getElementById(id); }
+function ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function today() { return ymd(new Date()); }
+function key(d) { return ymd(d) + 'T' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+function nowKey() { return key(new Date()); }                                   // 例: 2026-11-22T13:05（日付だけの期限とも文字で比べられる）
+function addDays(s, n) { var d = new Date(s + 'T00:00:00'); d.setDate(d.getDate() + n); return ymd(d); }
+function md(d) { return d.slice(5, 10).replace('-', '/'); }   // '2026-11-22' → '11/22'
+function dueAfter(n) { return n < 1 ? key(new Date(Date.now() + n * 86400000)) : addDays(today(), n); }   // 1日未満は時刻つき
+function ivLabel(n) { return n < 1 ? Math.round(n * 24) + '時間後' : n + '日後'; }
+function ivText(it) { return ivLabel(it.iv); }
+function dueLabel(i) { return i.due <= nowKey() ? '今日' : (i.due.length > 10 ? i.due.slice(5).replace('T', ' ') : i.due); }
+function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function byId(id) { return S.items.find(function (i) { return i.id === id; }); }
+function toggle(arr, v) { return arr.indexOf(v) >= 0 ? arr.filter(function (x) { return x !== v; }) : arr.concat([v]); }
+function shuffle(a) {
+  for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+
+/* ===== 手応えの記録 ===== */
+function sym(r) { return r == null ? '指' : SYM[r]; }
+function cntR(i, r) { return i.hist.filter(function (x) { return x.r === r; }).length; }   // 記号rの回数
+function weakN(i) { return cntR(i, 0) + cntR(i, 1); }
+function goodN(i) { return cntR(i, 2) + cntR(i, 3); }
+function symStr(it, k) { return it.hist.slice(-k).map(function (x) { return sym(x.r); }).join(' '); }
+function symOptions(sel) {
+  var o = SYM.map(function (s, r) { return '<option value="' + r + '"' + (sel === r ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+  return sel == null ? o + '<option value="" selected>指</option>' : o;
+}
+function sortHist(it) { it.hist.sort(function (a, b) { return a.d < b.d ? -1 : a.d > b.d ? 1 : 0; }); }
+
+/* ===== 保存と読み込み（旧バージョンのデータもここで整える） ===== */
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); ui.err = ''; return true; }
+  catch (e) { ui.err = '保存できませんでした。容量がいっぱいかもしれません。'; return false; }
+}
+function load() {
+  try { var raw = localStorage.getItem(KEY); if (raw) S = JSON.parse(raw); } catch (e) {}
+  normalize();
+}
+function normalize() {
+  if (!S.items) S.items = [];
+  if (!S.log) S.log = {};
+  if (!Array.isArray(S.tags)) S.tags = [];
+  if (!RSORTS.some(function (r) { return r[0] === S.rsort; })) S.rsort = 'due';
+  if (!Array.isArray(S.prizes)) S.prizes = [];
+  if (!Array.isArray(S.gacha)) S.gacha = [];
+  if (S.gacha.some(function (g) { return g && 'hit' in g; })) {   // 旧形式の記録を「選んだ内容だけ」に整理
+    var td = S.gacha.filter(function (g) { return g && g.d === today(); })[0];
+    if (td && !S.lastDraw) S.lastDraw = { d: td.d, hit: td.hit, prize: td.prize };
+    S.gacha = S.gacha.filter(function (g) { return g && g.hit && g.prize != null; }).map(function (g) { return { d: g.d, prize: g.prize }; });
+  }
+  if (!S.lastDraw) S.lastDraw = null;
+  S.prizeRandom = !!S.prizeRandom;
+  if (!S.streak || typeof S.streak.count !== 'number' || typeof S.streak.last !== 'string') S.streak = legacyStreak();   // { count, last(最後に更新した日), color }
+  if (!scolor(S.streak.color)) S.streak.color = 'white';
+  delete S.flink;   // 条件の共有は廃止
+  if (!THEMES.some(function (t) { return t[0] === S.theme; })) S.theme = 'auto';
+  if (!SORTS.some(function (s) { return s[0] === S.sort; })) S.sort = 'due';
+  S.items.forEach(function (i) {
+    if (i.n == null) i.n = i.reps || 0;
+    if (!(i.iv > 0)) i.iv = i.interval > 0 ? i.interval : 1;
+    if (!Array.isArray(i.hist)) i.hist = [];
+    i.back = i.back || '';
+    i.hasF = !!i.hasF; i.hasB = !!i.hasB;   // 画像があるか（画像そのものは IndexedDB に保存）
+    if (!Array.isArray(i.tags)) i.tags = i.tag ? [i.tag] : [];   // 旧形式（タグ1つ）から複数タグへ
+    i.tags = i.tags.filter(function (g) { return typeof g === 'string' && g; });
+    delete i.tag;
+    delete i.imgF; delete i.imgB;   // 画像機能は取り消し済み（保存されていた画像は削除）
+    if (!i.created) i.created = parseInt(String(i.id).slice(0, 8), 36) || 0;
+    if (typeof i.due !== 'string' || i.done || i.learning || i.due > '9000') i.due = today();
+    ['interval', 'step', 'done', 'learning', 'reps'].forEach(function (k) { delete i[k]; });
+    i.tags.forEach(function (g) { if (S.tags.indexOf(g) < 0) S.tags.push(g); });
+  });
+}
+
+/* ===== バックアップ ===== */
+function readPrev() {
+  try { var r = localStorage.getItem(PREV); return r ? JSON.parse(r) : null; } catch (e) { return null; }
+}
+function checkImport() {
+  var txt = $('bk').value, d;
+  ui.bk = txt; ui.msg = '';
+  if (!txt.trim()) { ui.msg = '復元したいデータを、上のボックスに貼り付けてください。'; return; }
+  try { d = JSON.parse(txt); } catch (e) { ui.msg = 'データの形式が正しくありません。書き出したデータをそのまま貼り付けてください。'; return; }
+  if (!d || !Array.isArray(d.items)) { ui.msg = 'このアプリの書き出しデータではないようです。'; return; }
+  var ok = d.items.filter(function (i) { return i && typeof i.id === 'string' && typeof i.front === 'string' && i.front.trim(); });
+  ui.pending = { kind: 'import', cards: ok.length, skipped: d.items.length - ok.length,
+    data: { items: ok, log: d.log && typeof d.log === 'object' ? d.log : {}, sort: d.sort, rsort: d.rsort,
+      tags: Array.isArray(d.tags) ? d.tags.filter(function (x) { return typeof x === 'string'; }) : [],
+      prizes: Array.isArray(d.prizes) ? d.prizes.filter(function (x) { return typeof x === 'string'; }) : [],
+      gacha: Array.isArray(d.gacha) ? d.gacha.filter(function (g) { return g && typeof g.d === 'string'; }) : [],
+      lastDraw: d.lastDraw, prizeRandom: d.prizeRandom, theme: d.theme, streak: d.streak } };
+}
+function askUndo() {
+  var p = readPrev();
+  if (p && Array.isArray(p.items)) ui.pending = { kind: 'undo', cards: p.items.length, skipped: 0, data: p };
+}
+function applyPending() {
+  var p = ui.pending, before = JSON.stringify(S);
+  S = p.data; normalize();
+  try { localStorage.setItem(PREV, before); } catch (e) {}
+  save(); buildQueue();
+  if (IMG.ok) imgSync().catch(noop);   // 同じ端末なら、同じIDのカードに画像がつながる
+  ui.msg = (p.kind === 'undo' ? '復元前の状態に戻しました' : '復元しました') + '（カード' + S.items.length + '枚）';
+  ui.pending = null;
+}
+
+/* ===== 画像（IndexedDB に保存。カードには「あるかどうか」の印 hasF / hasB だけ持たせる） ===== */
+var IMG = { ok: !!window.indexedDB, db: null, urls: {} };   // urls: 表示用に作った一時URLの置き場（key → url）
+var IMG_MAX_PX = 800, IMG_QUALITY = 0.65, IMG_MAX_BYTES = 20 * 1024 * 1024;
+function noop() {}
+function imgOpen() {
+  if (IMG.db) return Promise.resolve(IMG.db);
+  return new Promise(function (resolve, reject) {
+    var rq;
+    try { rq = indexedDB.open('fukushu-img', 1); } catch (e) { return reject(e); }
+    rq.onupgradeneeded = function () { rq.result.createObjectStore('imgs', { keyPath: 'key' }); };
+    rq.onsuccess = function () { IMG.db = rq.result; IMG.db.onclose = function () { IMG.db = null; }; resolve(IMG.db); };
+    rq.onerror = function () { reject(rq.error || new Error('open failed')); };
+    rq.onblocked = function () { reject(new Error('blocked')); };
+  });
+}
+function imgTx(mode, fn) {   // 1回のやり取り。fn(store) が返すリクエストの結果を、完了後に返す。失敗は reject
+  return imgOpen().then(function (db) {
+    return new Promise(function (resolve, reject) {
+      var tx = db.transaction('imgs', mode), out, rq;
+      tx.oncomplete = function () { resolve(out); };
+      tx.onerror = tx.onabort = function () { reject(tx.error || new Error('tx failed')); };
+      rq = fn(tx.objectStore('imgs'));
+      if (rq) rq.onsuccess = function () { out = rq.result; };
+    });
+  });
+}
+function imgPut(key, blob, cardId) { return imgTx('readwrite', function (st) { return st.put({ key: key, cardId: cardId, face: key.slice(-1), size: blob.size, blob: blob }); }); }
+function imgGet(key) { return imgTx('readonly', function (st) { return st.get(key); }); }
+function imgDel(keys) { return imgTx('readwrite', function (st) { keys.forEach(function (k) { st.delete(k); }); }); }
+function imgAll() { return imgTx('readonly', function (st) { return st.getAll(); }); }
+function revokeUrl(k) { if (IMG.urls[k]) { URL.revokeObjectURL(IMG.urls[k]); delete IMG.urls[k]; } }
+function persistStorage() { try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {} }   // ブラウザに、消さないでほしいと頼む
+
+function compressImage(file) {   // 長辺 IMG_MAX_PX・JPEG に縮める（写真の向きは、ブラウザが自動で直す）
+  return new Promise(function (resolve, reject) {
+    if (file.size > IMG_MAX_BYTES) return reject(new Error('big'));
+    var url = URL.createObjectURL(file), im = new Image();
+    im.onload = function () {
+      var k = Math.min(1, IMG_MAX_PX / Math.max(im.naturalWidth, im.naturalHeight));
+      var w = Math.max(1, Math.round(im.naturalWidth * k)), h = Math.max(1, Math.round(im.naturalHeight * k));
+      var c = document.createElement('canvas'), x;
+      c.width = w; c.height = h;
+      x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      c.toBlob(function (b) { b ? resolve(b) : reject(new Error('encode')); }, 'image/jpeg', IMG_QUALITY);
+    };
+    im.onerror = function () { URL.revokeObjectURL(url); reject(new Error('load')); };
+    im.src = url;
+  });
+}
+function imgSync() {   // 画像の有無を、IndexedDB の中身に合わせる（復元・不具合のあとでも、表示がずれないように）
+  return imgAll().then(function (recs) {
+    var has = {}, ids = {}, bytes = 0, changed = false;
+    recs.forEach(function (r) { has[r.key] = true; bytes += r.size || 0; });
+    S.items.forEach(function (i) {
+      var f = !!has[i.id + ':f'], b = !!has[i.id + ':b'];
+      ids[i.id] = true;
+      if (i.hasF !== f || i.hasB !== b) { i.hasF = f; i.hasB = b; changed = true; }
+    });
+    ui.imgStat = { count: recs.length, bytes: bytes, orphans: recs.filter(function (r) { return !ids[r.cardId]; }).length };
+    if (changed) save();
+    render();
+  });
+}
+function imgInit() { imgOpen().then(imgSync).catch(function () { IMG.ok = false; render(); }); }   // 使えない環境でも、アプリは止めない
+function imgClean() {   // 使われていない画像（カードがもうないもの）を消す
+  imgAll().then(function (recs) {
+    var ids = {}, dead;
+    S.items.forEach(function (i) { ids[i.id] = true; });
+    dead = recs.filter(function (r) { return !ids[r.cardId]; }).map(function (r) { return r.key; });
+    if (!dead.length) { ui.imsg = '整理する画像はありません。'; return; }
+    return imgDel(dead).then(function () { dead.forEach(revokeUrl); ui.imsg = dead.length + '枚の画像を整理しました。'; });
+  }).then(imgSync).catch(function () { ui.err = '画像を整理できませんでした。'; render(); });
+}
+function imgFail(keys) {   // 保存に失敗したとき（容量がいっぱいなど）。途中まで入った画像は消して、アプリは続ける
+  ui.busy = false;
+  ui.err = '画像を保存できませんでした。端末の保存領域がいっぱいかもしれません。画像を減らすか、設定で整理してください。';
+  if (keys && keys.length) imgDel(keys).catch(noop);
+  render();
+}
+function resetPimg(scope) {   // 選びかけの画像を捨てる
+  ['f', 'b'].forEach(function (face) {
+    var cur = ui.pimg[scope][face];
+    if (cur && cur.url) URL.revokeObjectURL(cur.url);
+    ui.pimg[scope][face] = scope === 'add' ? null : undefined;   // add: なし / edit: 変更なし
+  });
+}
+function imgOps(st, card) {   // 保存するときにやること: [{ face, blob }]（blob が null なら削除）
+  var ops = [];
+  ['f', 'b'].forEach(function (face) {
+    var v = st[face];
+    if (v === undefined) return;
+    if (v === null) { if (card && card['has' + face.toUpperCase()]) ops.push({ face: face, blob: null }); }
+    else ops.push({ face: face, blob: v.blob });
+  });
+  return ops;
+}
+function putImgs(id, ops) {
+  persistStorage();
+  return Promise.all(ops.map(function (op) {
+    revokeUrl(id + ':' + op.face);
+    return op.blob ? imgPut(id + ':' + op.face, op.blob, id) : imgDel([id + ':' + op.face]);
+  }));
+}
+function loadImgs() {   // 画面に出ている画像だけ、IndexedDB から読んで表示する
+  var els = document.querySelectorAll('img[data-k]');
+  Array.prototype.forEach.call(els, function (el) {
+    var k = el.dataset.k;
+    if (IMG.urls[k]) { el.src = IMG.urls[k]; return; }
+    imgGet(k).then(function (rec) {
+      if (!rec) { el.style.display = 'none'; return; }
+      el.src = IMG.urls[k] || (IMG.urls[k] = URL.createObjectURL(rec.blob));
+    }).catch(function () { el.style.display = 'none'; });
+  });
+}
+
+/* ===== カードの操作 ===== */
+function buildQueue() {
+  var now = nowKey();
+  ui.queue = S.items.filter(function (i) { return i.due <= now && tagsMatch(i, F.r); })
+    .sort(reviewCmp)
+    .map(function (i) { return i.id; });
+  if (S.rsort === 'rand') shuffle(ui.queue);   // ランダム順: 復習タブを開くたびに並べ直す
+  ui.sel = {}; ui.pick = {}; ui.shown = {};
+}
+// 期限になったカードを、開いたままでも復習に足す（3時間後の設定用）
+function refreshQueue() {
+  var now = nowKey(), changed = false;
+  S.items.forEach(function (i) {
+    if (i.due <= now && tagsMatch(i, F.r) && ui.queue.indexOf(i.id) < 0) { ui.queue.push(i.id); changed = true; }
+  });
+  return changed;
+}
+function reviewCmp(a, b) {   // 復習タブの並び順
+  var c = 0;
+  if (S.rsort === 'tag') c = (a.tags[0] || '~').localeCompare(b.tags[0] || '~');
+  else if (S.rsort === 'weak') c = weakN(b) - weakN(a) || cntR(b, 0) - cntR(a, 0);   // ×△が多い順（同数なら×が多い順）
+  return c || (a.due < b.due ? -1 : 1);
+}
+function rate(id, r) {
+  var it = byId(id), t = today();
+  if (!it) return;
+  if (ui.pick[id]) it.iv = ui.pick[id];
+  it.n++;
+  it.hist.push({ d: t, r: r, iv: it.iv });
+  it.due = dueAfter(it.iv);
+  ui.queue = ui.queue.filter(function (x) { return x !== id; });
+  S.log[t] = (S.log[t] || 0) + 1;
+  if (checkStreak()) ui.sgo = true;   // 更新したら、描画のときにアニメを始める
+  save();
+}
+function addCard() {   // true=追加した / false=追加できない / 'wait'=画像を保存してから追加する
+  var f = $('f').value.trim();
+  if (!f || ui.busy) return false;
+  var id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6), pend = ui.pimg.add, ops = imgOps(pend, null);
+  var card = {
+    id: id, front: f, back: $('b').value.trim(), tags: ui.addTag.slice(), hasF: !!pend.f, hasB: !!pend.b,
+    iv: 1, n: 0, hist: [], created: Date.now(), due: today()
+  };
+  var finish = function () { S.items.push(card); save(); buildQueue(); resetPimg('add'); ui.df = ''; ui.db = ''; };
+  if (!ops.length) { finish(); return true; }
+  ui.busy = true;
+  putImgs(id, ops).then(function () { ui.busy = false; finish(); render(); }).catch(function () { imgFail(ops.map(function (o) { return id + ':' + o.face; })); });
+  return 'wait';
+}
+function saveEdit() {   // true=保存した / false=保存できない / 'wait'=画像を保存してから保存する
+  var it = byId(ui.openId), f = $('ef').value.trim();
+  if (!f || ui.busy) return false;
+  var back = $('eb').value.trim(), tags = ui.editTag.slice(), v = parseInt($('ei').value, 10), ed = ui.pimg.edit, ops = imgOps(ed, it);
+  var commit = function () {
+    it.front = f; it.back = back; it.tags = tags; ui.def = null;
+    if (v >= 1) {
+      if (v !== it.iv && it.n > 0) it.due = addDays(it.hist.length ? it.hist[it.hist.length - 1].d : today(), v);
+      it.iv = v;
+    }
+    ['f', 'b'].forEach(function (face) { if (ed[face] !== undefined) it['has' + face.toUpperCase()] = !!ed[face]; });
+    save(); ui.openId = null; resetPimg('edit');
+    if (ui.from === 'today') { ui.tab = 'today'; ui.from = ''; }
+  };
+  if (!ops.length) { commit(); return true; }
+  ui.busy = true;
+  putImgs(it.id, ops).then(function () { ui.busy = false; commit(); render(); }).catch(function () { imgFail([]); });
+  return 'wait';
+}
+function deleteCard() {
+  var id = ui.delId;
+  S.items = S.items.filter(function (i) { return i.id !== id; });
+  if (ui.openId === id) ui.openId = null;
+  ui.delId = null; save(); buildQueue();
+  if (IMG.ok) { revokeUrl(id + ':f'); revokeUrl(id + ':b'); imgDel([id + ':f', id + ':b']).catch(noop); }   // 画像も一緒に消す
+}
+function scolor(key) { return SCOLORS.filter(function (c) { return c.key === key; })[0]; }
+function drawColor() { return SCOLORS[Math.floor(Math.random() * SCOLORS.length)].key; }   // 5色から各20%
+function legacyStreak() {   // 以前の記録（日ごとの復習数）から、いまの連続日数を数え直す
+  var d = today(), c = 0, last;
+  if (!S.log[d]) d = addDays(d, -1);
+  last = d;
+  while (S.log[d]) { c++; d = addDays(d, -1); }
+  return { count: c, last: c ? last : '', color: drawColor() };
+}
+function streakNow() {   // 表示する連続日数（昨日か今日に更新していなければ途切れている）
+  var t = today();
+  return S.streak.last === t || S.streak.last === addDays(t, -1) ? S.streak.count : 0;
+}
+function checkStreak() {   // 今日の復習を消化しきった「1回目」だけ、連続日数を+1して、その日の色を抽選する
+  var t = today(), now = nowKey(), st = S.streak;
+  if (st.last === t || !(S.log[t] > 0)) return false;
+  if (S.items.some(function (i) { return i.due <= now; })) return false;
+  st.count = st.last === addDays(t, -1) ? st.count + 1 : 1;
+  st.last = t;
+  st.color = drawColor();
+  return true;
+}
+function dueDay(i) { var d = i.due.slice(0, 10), t = today(); return d < t ? t : d; }   // 期限切れは「今日」に数える
+function shiftDue(it, n) {   // n日ずらす（時刻つきなら時刻は保つ。過去には戻さない）
+  var d = it.due.slice(0, 10), t = today(), suf = it.due.length > 10 ? it.due.slice(10) : '';
+  var nd = addDays(n > 0 && d < t ? t : d, n);
+  it.due = (nd < t ? t : nd) + suf;
+}
+
+/* ===== タグと絞り込み ===== */
+function fcur() { return F[{ today: 'r', list: 'l', sched: 's' }[ui.tab] || 'l']; }   // いまのタブの条件
+function fname(g) { return g === '__none' ? 'タグなし' : g; }
+function tagsMatch(i, f) {   // すべて含む(and) / どれかを含む(or)
+  if (!f.tags.length) return true;
+  var test = function (t) { return t === '__none' ? !i.tags.length : i.tags.indexOf(t) >= 0; };
+  return f.mode === 'or' ? f.tags.some(test) : f.tags.every(test);
+}
+function makeTag(name) {
+  name = name.trim();
+  if (name && S.tags.indexOf(name) < 0) { S.tags.push(name); save(); }
+  return name;
+}
+function removeTag() {
+  var g = ui.delTag;
+  S.tags = S.tags.filter(function (x) { return x !== g; });
+  S.items.forEach(function (i) { i.tags = i.tags.filter(function (x) { return x !== g; }); });
+  ui.addTag = ui.addTag.filter(function (x) { return x !== g; });
+  ui.editTag = ui.editTag.filter(function (x) { return x !== g; });
+  F.r.tags = F.r.tags.filter(function (x) { return x !== g; });
+  F.l.tags = F.l.tags.filter(function (x) { return x !== g; });
+  F.s.tags = F.s.tags.filter(function (x) { return x !== g; });
+  ui.delTag = null; save(); buildQueue();
+}
+
+/* ===== ガチャ（処理） ===== */
+function gachaState() {
+  var t = today(), now = nowKey(), d = S.lastDraw;
+  return {
+    due: S.items.filter(function (i) { return i.due <= now; }).length,
+    done: (S.log[t] || 0) > 0,
+    todays: d && d.d === t ? d : null,
+    color: S.streak.last === t ? scolor(S.streak.color) : null   // 今日の色（連続日数を更新したときに決まる）
+  };
+}
+function drawGacha() {
+  var st = gachaState();
+  if (st.todays || st.due > 0 || !st.done || !st.color || !S.prizes.length) return false;
+  S.lastDraw = { d: today(), hit: Math.random() * 100 < st.color.rate, prize: null };   // 引いた結果は先に保存（引き直し防止）
+  if (S.lastDraw.hit && S.prizeRandom) {   // ランダムモード: 登録した中から等確率で1つ決める
+    S.lastDraw.prize = S.prizes[Math.floor(Math.random() * S.prizes.length)];
+    S.gacha.push({ d: S.lastDraw.d, prize: S.lastDraw.prize });
+  }
+  save();
+  return true;
+}
+function pickPrize(i) {
+  var g = gachaState().todays;
+  if (g && g.hit && g.prize == null && S.prizes[i] != null) {
+    g.prize = S.prizes[i];
+    S.gacha.push({ d: g.d, prize: g.prize });   // 記録するのは、選んだあたりの内容だけ
+    save();
+  }
+}
+function addPrize() {
+  var n = $('np').value.trim();
+  if (!n || S.prizes.indexOf(n) >= 0) return false;
+  S.prizes.push(n); save();
+  return true;
+}
+
+/* ===== 画面の部品 ===== */
+function reduceMotion() { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+function rollText() {   // めくっている途中の数字（桁数は本物と同じ）
+  var n = String(Math.max(streakNow(), 1)).length, s = '', i;
+  for (i = 0; i < n; i++) s += Math.floor(Math.random() * 10);
+  return s;
+}
+function rollColor() {   // めくっている間は、色もランダムに変わる（数字が止まったときに、本当の色に決まる）
+  var pool = SCOLORS.filter(function (c) { return c.key !== ui.srcol; });
+  return pool[Math.floor(Math.random() * pool.length)].key;
+}
+function streakStat() {
+  var roll = ui.sanim === 'roll', c = scolor(roll && ui.srcol ? ui.srcol : S.streak.color);
+  var age = ui.sstart ? (Date.now() - ui.sstart) / 1000 : GLOW_SEC, lit = age < GLOW_SEC;   // 更新から GLOW_SEC 秒だけ光る
+  var delay = 'animation-delay:-' + age.toFixed(2) + 's';   // 描き直しても、光り方が最初からやり直しにならない
+  var box = lit ? ' lit" style="--sc:' + (c.key === 'white' ? 'var(--tx)' : c.main) + ';--sg:' + c.glow + ';' + delay + '"' : '"';
+  return '<div class="stat' + box + '><b' + (lit ? ' style="' + delay + '"' : '') + '><em id="streak" class="' + (roll ? 'roll' : ui.sanim === 'don' ? 'don' : '') + '">' + (roll ? ui.sroll : streakNow()) + '</em></b><span>連続日数</span></div>';
+}
+var streakTimer = null;
+function startStreakAnim() {   // カチャカチャ（数字がめくれる）→ ドン！（大きく跳ねて、元の大きさに戻る）。音はなし
+  clearInterval(streakTimer);
+  setTimeout(render, GLOW_SEC * 1000 + 100);   // 光り終わったら、ふつうの表示に描き直す
+  var ticks = 0;
+  streakTimer = setInterval(function () {
+    if (++ticks <= 11) {
+      ui.sroll = rollText(); if (ticks % 3 === 0) ui.srcol = rollColor();   // 数字は速く、色は3倍ゆっくり替える
+      var el = $('streak'), box = el && el.closest ? el.closest('.stat') : null, rc = scolor(ui.srcol);
+      if (el) el.textContent = ui.sroll;
+      if (box) { box.style.setProperty('--sc', rc.key === 'white' ? 'var(--tx)' : rc.main); box.style.setProperty('--sg', rc.glow); }
+      return;
+    }
+    clearInterval(streakTimer);
+    ui.sanim = 'don'; render();
+    setTimeout(function () { ui.sanim = false; render(); }, 800);
+  }, 80);
+}
+function imgTag(it, face) {   // 画像の入れ物（中身は、描画のあとで読み込む。タップで拡大）
+  return IMG.ok && it['has' + face.toUpperCase()] ? '<img class="cimg" data-act="zoom" data-k="' + it.id + ':' + face + '" alt="">' : '';
+}
+function imgSlot(scope, face, label) {
+  var st = ui.pimg[scope][face], card = scope === 'edit' ? byId(ui.openId) : null;
+  var saved = st === undefined && card && card['has' + face.toUpperCase()];
+  if (!st && !saved) return '<label class="imgbtn">📷 ' + label + '<input type="file" accept="image/*" data-pimg="' + scope + ':' + face + '" style="display:none"></label>';
+  return '<span style="display:inline-flex;align-items:center;gap:6px"><span class="note" style="margin:0">' + (face === 'f' ? '問題' : '答え') + '</span>'
+    + '<img class="cimg" style="max-height:90px;margin:0" data-act="zoom" alt="" ' + (st ? 'src="' + st.url + '" data-u="' + st.url + '"' : 'data-k="' + card.id + ':' + face + '"') + '>'
+    + '<button class="ghost" data-act="rmimg" data-v="' + scope + ':' + face + '" style="width:auto;padding:3px 10px;font-size:12px">削除</button></span>';
+}
+function imgRow(scope) {
+  if (!IMG.ok) return '<p class="note">この環境では画像を使えません（プライベートモードなど）。</p>';
+  return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">' + imgSlot(scope, 'f', '問題に画像') + imgSlot(scope, 'b', '答えに画像') + '</div>';
+}
+function mb(bytes) { return (bytes / 1048576).toFixed(1); }
+function imageCard() {
+  var st = ui.imgStat, h = '<div class="card"><b style="font-size:14px">画像</b><p class="note">画像は、この端末の中（IndexedDB）にだけ保存されます。「書き出し」には含まれないので、機種変更では引き継がれません。画像は長辺' + IMG_MAX_PX + 'pxに縮めて保存します。</p>';
+  if (!IMG.ok) return h + '<p class="note">この環境では画像を使えません（プライベートモードなど）。</p></div>';
+  h += '<p class="note">' + (st ? '画像 ' + st.count + '枚 ・ 約' + mb(st.bytes) + 'MB' + (st.orphans ? '（使われていない画像 ' + st.orphans + '枚）' : '') : '計算中…') + '</p>'
+    + '<button class="ghost" data-act="imgclean"' + (st && st.orphans ? '' : ' disabled') + '>使われていない画像を整理</button>'
+    + (ui.imsg ? '<p class="note" style="margin:10px 0 0;color:var(--tx)">' + esc(ui.imsg) + '</p>' : '');
+  return h + '</div>';
+}
+function viewZoom(z) {
+  return '<div class="modal" data-act="zoomx"><div style="max-width:560px;width:100%;text-align:center"><img class="zimg" alt="" ' + (z.u ? 'src="' + z.u + '"' : 'data-k="' + esc(z.k) + '"') + '><button class="ghost" data-act="zoomx" style="width:auto;padding:6px 24px">閉じる</button></div></div>';
+}
+function stat(v, label) { return '<div class="stat"><b>' + v + '</b><span>' + label + '</span></div>'; }
+function tagHtml(it) { return it.tags.map(function (g) { return '<span class="tag">' + esc(g) + '</span>'; }).join(''); }
+function histHtml(it) { return it.hist.length ? '<p class="meta" style="margin:10px 0 0">手応えの記録: ' + symStr(it, 12) + '</p>' : ''; }
+function filterBox(scope, hit, total) {
+  var f = F[scope], h = '<div class="card" style="padding:8px 12px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px">'
+    + '<span style="display:flex;gap:6px"><button class="ghost" data-act="fopen" style="width:auto;padding:4px 10px;font-size:13px">🏷 タグ絞り込み ' + (ui.fopen ? '▲' : '▼') + '</button><button class="ghost" data-act="fclear" style="width:auto;padding:4px 10px;font-size:13px">全て表示</button></span>'
+    + '<span style="font-size:13px;color:' + (hit ? 'var(--sub)' : 'var(--r0)') + '">' + hit + ' / ' + total + '件</span></div>';
+  if (!ui.fopen) {
+    if (f.tags.length) h += '<p class="note" style="margin:4px 0 0">条件: ' + esc(f.tags.map(fname).join(f.mode === 'and' ? ' ＋ ' : ' / ')) + '（' + (f.mode === 'and' ? 'すべて含む' : 'どれかを含む') + '）</p>';
+    return h + '</div>';
+  }
+  h += '<div class="pk" style="margin-top:8px">';
+  S.tags.concat(['__none']).forEach(function (g) { h += '<button data-act="ftag" data-v="' + esc(g) + '" class="' + (f.tags.indexOf(g) >= 0 ? 'on' : '') + '">' + esc(fname(g)) + '</button>'; });
+  return h + '</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="seg">'
+    + '<button data-act="fmode" data-v="and" class="' + (f.mode === 'and' ? 'on' : '') + '">すべて含む</button><button data-act="fmode" data-v="or" class="' + (f.mode === 'or' ? 'on' : '') + '">どれかを含む</button></span>'
+    + '<button class="ghost" data-act="fclear" style="width:auto;padding:3px 10px;font-size:12px">クリア</button></div>'
+    + '</div>';
+}
+function tagPicker(sel, act) {
+  var h = '<p class="note" style="margin:0 0 6px">タグ（複数選べます・もう一度タップで外す）</p><div class="pk">';
+  if (!S.tags.length) h += '<span class="note" style="margin:0">タグがまだありません。下で作れます。</span>';
+  S.tags.forEach(function (g) { h += '<button data-act="' + act + '" data-v="' + esc(g) + '" class="' + (sel.indexOf(g) >= 0 ? 'on' : '') + '">' + esc(g) + '</button>'; });
+  return h + '</div><div style="display:flex;gap:6px"><input id="nt" placeholder="新しいタグ名" style="margin-bottom:12px"><button data-act="mktag" class="ghost" style="width:auto;white-space:nowrap;margin-bottom:12px">作る</button></div>';
+}
+function pickHead(n) {
+  var d = new Date(today() + 'T00:00:00'), p = function (x) { return String(x).padStart(2, '0'); }, when;
+  if (n < 1) { d = new Date(Date.now() + n * 86400000); when = p(d.getHours()) + ':' + p(d.getMinutes()) + '頃'; }
+  else { d.setDate(d.getDate() + n); when = (d.getMonth() + 1) + '/' + d.getDate() + '（' + '日月火水木金土'[d.getDay()] + '）'; }
+  return '<b>' + ivLabel(n) + '</b><span>' + when + '</span>';
+}
+function ivPick(sel, id) {   // スライダー（時間: 3〜12時間を1時間刻み ／ 日: 1〜21日）＋目盛り。目盛りはタップでも選べる
+  var hours = sel < 1, lo, hi, cur, marks = [];
+  if (hours) { lo = 3; hi = 12; cur = Math.round(sel * 24); for (var h = lo; h <= hi; h++) marks.push([h / 24, h]); }
+  else { lo = 1; hi = 21; cur = sel; OPTS.forEach(function (o) { marks.push([o, o]); }); }
+  var ticks = marks.map(function (m) {
+    return '<button data-act="pick" data-v="' + id + '" data-d="' + m[0] + '" class="tk' + (m[1] === cur ? ' on' : '') + '" style="left:calc(11px + (100% - 22px) * ' + ((m[1] - lo) / (hi - lo)) + ')">' + m[1] + '</button>';
+  }).join('');
+  var seg = '<span class="seg"><button data-act="unit" data-v="' + id + '" data-u="h" class="' + (hours ? 'on' : '') + '">時間</button><button data-act="unit" data-v="' + id + '" data-u="d" class="' + (hours ? '' : 'on') + '">日</button></span>';
+  return '<div class="iv"><div class="ivh"><span class="ivt">' + pickHead(sel) + '</span>' + seg + '</div>'
+    + '<input type="range" class="rg" data-slide="' + id + '" data-u="' + (hours ? 'h' : 'd') + '" min="' + lo + '" max="' + hi + '" step="1" value="' + cur + '"><div class="tks">' + ticks + '</div></div>';
+}
+function rateLabel(id) {
+  var sel = ui.sel[id];
+  return sel == null ? '手応えを選んでください' : '決定（' + SYM[sel] + ' ・ ' + ivLabel(ui.pick[id]) + '）';
+}
+function dayLabel(d) { return '日月火水木金土'[new Date(d + 'T00:00:00').getDay()]; }
+function colorLabel(c) { return '<span class="cdot" style="--sc:' + c.main + ';--sg:' + c.glow + '"></span>今日の色：' + c.name + ' → あたり' + c.rate + '%'; }
+function shine(svg, c) { return c ? '<div class="shine" style="--lc:' + c.rgb + '">' + svg + '</div>' : svg; }   // 光るのは、今日の色が決まっていて、まだ引いていないとき（回している間も光る）
+function machineSvg(cls) {
+  var balls = [[72, 62, '--r0'], [104, 46, '--r3'], [128, 74, '--r1'], [86, 96, '--r2'], [114, 104, '--r0'], [68, 92, '--r3'], [100, 74, '--r1']];
+  var s = '<svg class="gm ' + cls + '" viewBox="0 0 200 240" aria-hidden="true">'
+    + '<circle cx="100" cy="82" r="64" style="fill:var(--bd);fill-opacity:.55;stroke:var(--sub);stroke-width:3"/>';
+  balls.forEach(function (b) {
+    s += '<circle cx="' + b[0] + '" cy="' + b[1] + '" r="15" style="fill:var(' + b[2] + ')"/><path d="M' + (b[0] - 15) + ' ' + b[1] + 'h30" style="stroke:#fff;stroke-width:2;opacity:.8"/>';
+  });
+  return s + '<rect x="38" y="138" width="124" height="86" rx="16" style="fill:var(--ac)"/>'
+    + '<rect x="72" y="186" width="56" height="28" rx="8" style="fill:var(--bg)"/>'
+    + '<g class="' + (cls ? 'spin' : '') + '"><circle cx="100" cy="162" r="17" style="fill:var(--card)"/><rect x="95" y="147" width="10" height="30" rx="5" style="fill:var(--sub)"/></g></svg>';
+}
+function themeCard() {
+  var h = '<div class="card"><b style="font-size:14px">画面の色</b><p class="note">好きな色合いを選べます。「自動」は、端末の白・黒の設定に合わせます。</p><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
+  THEMES.forEach(function (t) {
+    var on = S.theme === t[0];
+    h += '<button data-act="theme" data-v="' + t[0] + '" class="ghost" style="padding:6px 2px;font-size:12px;line-height:1.3;' + (on ? 'border-color:var(--ac);color:var(--tx);font-weight:700;' : '') + '">'
+      + '<span style="display:block;height:24px;border-radius:8px;margin-bottom:4px;border:1px solid var(--bd);background:linear-gradient(135deg,' + t[2] + ' 50%,' + t[3] + ' 50%)"></span>' + t[1] + (on ? ' ✓' : '') + '</button>';
+  });
+  return h + '</div></div>';
+}
+function tagCard() {
+  var h = '<div class="card"><b style="font-size:14px">タグの管理</b><p class="note">ここで作ったタグは、カードの追加・編集で選んで使い回せます。</p>';
+  if (!S.tags.length) h += '<p class="note">まだタグがありません</p>';
+  S.tags.forEach(function (g) {
+    var n = S.items.filter(function (i) { return i.tags.indexOf(g) >= 0; }).length;
+    h += '<div class="row"><span>' + esc(g) + ' <small style="display:inline">（' + n + '枚）</small></span><button class="x" data-act="deltag" data-v="' + esc(g) + '">削除</button></div>';
+  });
+  return h + '<div style="display:flex;gap:6px;margin-top:12px"><input id="nt" placeholder="新しいタグ名" style="margin-bottom:0"><button data-act="mktag" class="ghost" style="width:auto;white-space:nowrap">作る</button></div></div>';
+}
+function prizeCard() {
+  var h = '<div class="card"><b style="font-size:14px">ガチャのあたりの内容</b><p class="note">あたりが出たとき、この中から1つ選べます。（あたり確率は、連続日数の色で30〜70%に変わります）</p>'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px">あたりの決め方</span><span class="seg"><button data-act="pmode" data-v="pick" class="' + (S.prizeRandom ? '' : 'on') + '">自分で選ぶ</button><button data-act="pmode" data-v="rand" class="' + (S.prizeRandom ? 'on' : '') + '">ランダム</button></span></div>'
+    + (S.prizeRandom ? '<p class="note">あたりが出ると、下の内容から等確率で1つ、自動で決まります。</p>' : '');
+  if (!S.prizes.length) h += '<p class="note">まだありません</p>';
+  S.prizes.forEach(function (n, i) {
+    h += '<div class="row"><span>' + esc(n) + '</span><button class="x" data-act="delprize" data-v="' + i + '">削除</button></div>';
+  });
+  return h + '<div style="display:flex;gap:6px;margin-top:8px"><input id="np" placeholder="例: 好きなお菓子を食べる" style="margin-bottom:0"><button data-act="addprize" class="ghost" style="width:auto;white-space:nowrap">追加</button></div></div>';
+}
+function applyTheme() {   // 'auto' は端末の白/黒設定に任せる
+  var r = document.documentElement;
+  if (S.theme === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', S.theme);
+}
+
+/* ===== 各タブの画面 ===== */
+function viewToday() {
+  var now = nowKey(), due = S.items.filter(function (i) { return i.due <= now; });
+  var hit = due.filter(function (i) { return tagsMatch(i, F.r); }).length;
+  return filterBox('r', hit, due.length)
+    + '<select id="rs">' + RSORTS.map(function (r) { return '<option value="' + r[0] + '"' + (S.rsort === r[0] ? ' selected' : '') + '>' + r[1] + '</option>'; }).join('') + '</select>'
+    + viewTodayBody();
+}
+function viewTodayBody() {
+  if (!ui.queue.length) return '<div class="empty">' + (S.items.length ? '🎉 今日の復習は全部おわり！' : 'まず「追加」から項目を入れよう') + '</div>';
+  var h = '<p class="note" style="margin:0 0 6px">今日の復習 ' + ui.queue.length + ' 件<br>× 忘れた ・ △ あやしい ・ ○ 思い出せた ・ ◎ 余裕（記録だけで、日数には影響しません）</p>';
+  ui.queue.forEach(function (id) { var it = byId(id); if (it) h += viewReviewCard(it); });
+  return h;
+}
+function viewReviewCard(it) {
+  var id = it.id, ready = ui.shown[id] || (!it.back && !it.hasB), sel = ui.sel[id];
+  if (ui.pick[id] == null) ui.pick[id] = Math.min(it.iv, 21);   // 復習時の日数は21日後まで
+  var h = '<div class="card"><button class="ed" data-act="editr" data-v="' + id + '">編集</button>' + tagHtml(it) + '<p class="meta">これまで ' + it.n + '回復習 ・ 復習間隔 ' + ivText(it) + '</p>'
+    + '<div class="front">' + esc(it.front) + '</div>' + imgTag(it, 'f')
+    + (ready && (it.back || it.hasB) ? '<div class="back">' + esc(it.back) + imgTag(it, 'b') + '</div>' : '') + histHtml(it);
+  if (!ready) return h + '<button data-act="show" data-v="' + id + '" style="margin-top:8px">答えを見る</button></div>';
+  h += '<div class="rates" style="margin-top:8px">';
+  SYM.forEach(function (s, r) {
+    h += '<button data-act="sel" data-v="' + id + '" data-r="' + r + '" style="background:var(' + COLORS[r] + ');opacity:' + (sel == null || sel === r ? 1 : 0.4) + ';' + (sel === r ? 'outline:3px solid var(--tx);outline-offset:1px' : '') + '">' + s + '</button>';
+  });
+  return h + '</div><p class="note" style="margin:4px 0">次の復習日</p>' + ivPick(ui.pick[id], id)
+    + '<button data-act="rate" data-v="' + id + '"' + (sel == null ? ' disabled' : '') + '>'
+    + rateLabel(id) + '</button></div>';
+}
+function viewAdd() {
+  return '<div class="card"><textarea id="f" placeholder="問題・覚えたいこと">' + esc(ui.df) + '</textarea>'
+    + '<textarea id="b" placeholder="答え・メモ（なくてもOK）">' + esc(ui.db) + '</textarea>'
+    + imgRow('add') + tagPicker(ui.addTag, 'atag') + '<button data-act="add"' + (ui.busy ? ' disabled' : '') + '>' + (ui.busy ? '保存中…' : '追加する') + '</button></div>';
+}
+function viewList() {
+  if (ui.openId && byId(ui.openId)) return viewDetail(byId(ui.openId));
+  var fn = SORTS.filter(function (s) { return s[0] === S.sort; })[0][2];
+  var h = '<select id="so">' + SORTS.map(function (s) { return '<option value="' + s[0] + '"' + (S.sort === s[0] ? ' selected' : '') + '>' + s[1] + '</option>'; }).join('') + '</select>';
+  h += filterBox('l', S.items.filter(function (i) { return tagsMatch(i, F.l); }).length, S.items.length);
+  h += '<input id="s" placeholder="検索" value="' + esc(ui.filter) + '">';
+  var l = S.items.filter(function (i) { return tagsMatch(i, F.l) && (i.front + i.back + i.tags.join(' ')).indexOf(ui.filter) >= 0; }).sort(fn);
+  if (!l.length) h += '<div class="empty">項目がありません</div>';
+  l.forEach(function (i) {
+    h += '<div class="row"><div data-act="edit" data-v="' + i.id + '" style="flex:1;cursor:pointer">' + esc(i.front.slice(0, 60))
+      + '<small>' + (i.hasF || i.hasB ? '📷 ' : '') + (i.tags.length ? esc(i.tags.join(' / ')) + ' ・ ' : '') + '復習' + i.n + '回 ・ 間隔 ' + ivText(i) + ' ・ 次回 ' + dueLabel(i) + '</small>'
+      + (i.hist.length ? '<small style="font-size:14px">' + symStr(i, 12) + '</small>' : '') + '</div>'
+      + '<div style="display:flex"><button class="x u" data-act="edit" data-v="' + i.id + '">編集</button>'
+      + '<button class="x" data-act="del" data-v="' + i.id + '">削除</button></div></div>';
+  });
+  return h;
+}
+function viewDetail(it) {
+  var h = '<button data-act="back" class="ghost" style="margin-bottom:10px">' + (ui.from === 'today' ? '← 復習に戻る' : '← 一覧に戻る') + '</button>';
+  var dr = ui.def || { f: it.front, b: it.back, i: it.iv >= 1 ? it.iv : '' };
+  h += '<div class="card"><textarea id="ef">' + esc(dr.f) + '</textarea><textarea id="eb" placeholder="答え・メモ">' + esc(dr.b) + '</textarea>'
+    + imgRow('edit') + tagPicker(ui.editTag, 'etag') + '<p class="note" style="margin:0 0 4px">復習間隔（日後）</p>'
+    + '<input id="ei" type="number" min="1" inputmode="numeric" value="' + esc(dr.i) + '"><button data-act="save"' + (ui.busy ? ' disabled' : '') + '>' + (ui.busy ? '保存中…' : '保存') + '</button></div>';
+  h += '<div class="card"><b style="font-size:14px">復習の記録（' + it.n + '回）</b><p class="note">いまの間隔: ' + ivText(it) + '　日付と手応えは、ここで直接直せます。</p>';
+  h += '<div class="row" style="align-items:center;flex-wrap:wrap;gap:6px"><input type="date" id="hd" value="' + (ui.hdate || today()) + '" style="width:auto;margin:0;padding:4px 6px;font-size:13px">'
+    + '<select id="hr" style="width:auto;margin:0;padding:4px;font-size:16px">' + symOptions(ui.hsym) + '</select>'
+    + '<button data-act="addhist" class="ghost" style="width:auto;padding:4px 12px;font-size:13px">記録を追加</button></div>';
+  if (!it.hist.length) h += '<p class="note">まだ記録がありません</p>';
+  for (var k = it.hist.length - 1; k >= 0; k--) {
+    h += '<div class="row" style="align-items:center;flex-wrap:wrap;gap:6px"><input type="date" data-hd="' + k + '" value="' + it.hist[k].d + '" style="width:auto;margin:0;padding:4px 6px;font-size:13px">'
+      + '<select data-hr="' + k + '" style="width:auto;margin:0;padding:4px;font-size:16px">' + symOptions(it.hist[k].r) + '</select>'
+      + '<button class="x" data-act="delhist" data-v="' + k + '">削除</button></div>';
+  }
+  return h + '</div>';
+}
+function viewSchedule() {
+  var t = today(), days = [], k;
+  for (k = 0; k < 7; k++) days.push(addDays(t, ui.sw * 7 + k));
+  if (!ui.sday || days.indexOf(ui.sday) < 0) ui.sday = days[0];
+  var inWeek = S.items.filter(function (i) { return days.indexOf(dueDay(i)) >= 0; });   // この週に予定があるカード（絞り込み前）
+  var hitWeek = inWeek.filter(function (i) { return tagsMatch(i, F.s); }).length;
+  var counts = days.map(function (d) { return S.items.filter(function (i) { return dueDay(i) === d && tagsMatch(i, F.s); }).length; });
+  var max = Math.max.apply(null, counts.concat([1])), total = counts.reduce(function (a, b) { return a + b; }, 0);
+  var top = counts.indexOf(Math.max.apply(null, counts));
+  var h = filterBox('s', hitWeek, inWeek.length) + '<div class="card"><div class="ivh" style="margin-bottom:6px"><span><b style="font-size:14px">' + md(days[0]) + ' 〜 ' + md(days[6]) + '</b>　' + total + '枚</span>'
+    + '<span class="seg"><button data-act="swk" data-v="-1"' + (ui.sw < 1 ? ' disabled' : '') + '>‹ 前</button><button data-act="swk" data-v="0">今週</button><button data-act="swk" data-v="1">次 ›</button></span></div>'
+    + '<div style="display:flex;gap:4px;height:150px;align-items:flex-end">';
+  days.forEach(function (d, i) {
+    var on = d === ui.sday, bar = counts[i] ? Math.max(6, Math.round(counts[i] / max * 90)) : 3;
+    h += '<button data-act="sday" data-v="' + d + '" style="flex:1;height:100%;padding:0;background:none;color:var(--tx);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;border-radius:8px">'
+      + '<span style="font-size:12px;font-weight:' + (on ? 700 : 400) + '">' + counts[i] + '</span>'
+      + '<span style="display:block;width:100%;height:' + bar + 'px;border-radius:6px 6px 2px 2px;background:' + (counts[i] ? 'var(--ac)' : 'var(--bd)') + ';opacity:' + (on || !counts[i] ? 1 : 0.55) + '"></span>'
+      + '<span style="font-size:11px;line-height:1.25;color:' + (on ? 'var(--tx)' : 'var(--sub)') + ';font-weight:' + (on ? 700 : 400) + ';border-bottom:2px solid ' + (on ? 'var(--ac)' : 'transparent') + '">' + (d === t ? '今日' : dayLabel(d)) + '<br>' + md(d) + '</span></button>';
+  });
+  h += '</div>' + (total ? '<p class="note" style="margin:6px 0 0">いちばん多い日: ' + md(days[top]) + '（' + dayLabel(days[top]) + '）' + counts[top] + '枚</p>' : '') + '</div>';
+  var list = S.items.filter(function (i) { return dueDay(i) === ui.sday && tagsMatch(i, F.s); }).sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
+  h += '<p class="note" style="margin:2px 0 6px"><b style="font-size:14px;color:var(--tx)">' + md(ui.sday) + '（' + dayLabel(ui.sday) + '）の復習 ' + list.length + '枚</b>　日付や時刻は自由に直せます</p>';
+  if (!list.length) h += '<div class="empty" style="padding:20px 0">この日の復習はありません</div>';
+  list.forEach(function (i) {
+    var late = i.due.slice(0, 10) < t;
+    h += '<div class="card" style="padding:10px"><div style="font-size:15px;white-space:pre-wrap">' + esc(i.front.slice(0, 60)) + '</div>'
+      + '<p class="meta" style="margin:2px 0 8px">' + (late ? '<span style="color:var(--r0)">期限切れ（' + md(i.due) + '）</span> ・ ' : '') + (i.tags.length ? esc(i.tags.join(' / ')) + ' ・ ' : '') + '復習' + i.n + '回 ・ 間隔 ' + ivText(i) + (i.hist.length ? ' ・ ' + symStr(i, 8) : '') + '</p>'
+      + '<div style="display:flex;gap:6px;align-items:center"><button class="ghost" data-act="shift" data-v="' + i.id + '" data-n="-1" style="width:auto;padding:6px 10px;font-size:13px">−1日</button>'
+      + '<input type="datetime-local" data-due="' + i.id + '" value="' + (i.due.length > 10 ? i.due : i.due + 'T00:00') + '" style="flex:1;min-width:0;margin:0;padding:6px;font-size:13px">'
+      + '<button class="ghost" data-act="shift" data-v="' + i.id + '" data-n="1" style="width:auto;padding:6px 10px;font-size:13px">+1日</button></div></div>';
+  });
+  return h;
+}
+function viewGacha() {
+  var st = gachaState(), g = st.todays, big = 'text-align:center;min-height:0;margin:8px 0';
+  var h = '<div class="card"><b style="font-size:14px">🎰 ご褒美ガチャ</b>' + shine(machineSvg(ui.anim ? 'shake' : ''), st.color && (!st.todays || ui.anim) ? st.color : null);
+  if (ui.anim) {
+    h += '<div class="front" style="' + big + '">ガチャガチャ…</div>';
+  } else if (g) {
+    if (!g.hit) h += '<div class="front pop" style="' + big + '">はずれ…また明日！</div>';
+    else if (g.prize != null) h += '<div class="front pop" style="' + big + '">🎉 あたり！<br>「' + esc(g.prize) + '」</div>';
+    else if (!S.prizes.length) h += '<div class="front pop" style="' + big + '">🎉 あたり！</div><p class="note" style="text-align:center">「設定」タブであたりの内容を登録すると、選べます。</p>';
+    else {
+      h += '<div class="front pop" style="' + big + '">🎉 あたり！</div><p class="note" style="text-align:center">好きなものを1つ選んでください（タップで決定）</p><div class="pk" style="justify-content:center">';
+      S.prizes.forEach(function (n, i) { h += '<button data-act="prize" data-v="' + i + '">' + esc(n) + '</button>'; });
+      h += '</div>';
+    }
+    h += '<p class="note" style="text-align:center">' + (st.color ? colorLabel(st.color) + '<br>' : '') + '今日はもう引きました。次は明日です。</p>';
+  } else if (!S.prizes.length) {
+    h += '<p class="note" style="text-align:center">「設定」タブで、あたりの内容を1つ以上登録してください。</p><button data-act="tab" data-v="set" class="ghost">設定を開く</button>';
+  } else if (st.due > 0) {
+    h += '<p class="note" style="text-align:center">復習があと' + st.due + '件残っています。全部終えると引けます。</p><button disabled>ガチャを引く</button>';
+  } else if (!st.done) {
+    h += '<p class="note" style="text-align:center">今日はまだ復習していません。1枚以上復習すると引けます。</p><button disabled>ガチャを引く</button>';
+  } else if (!st.color) {
+    h += '<p class="note" style="text-align:center">今日の復習を消化しきると、色とあたり確率が決まって引けます。</p><button disabled>ガチャを引く</button>';
+  } else {
+    h += '<p class="note" style="text-align:center">復習おつかれさま！1日1回。' + colorLabel(st.color) + '' + (S.prizeRandom ? '<br>あたりの内容は、等確率でランダムに決まります' : '') + '</p><button data-act="draw">ガチャを引く</button>';
+  }
+  h += '</div><div class="card"><b style="font-size:14px">記録（選んだあたり）</b>';
+  if (!S.gacha.length) return h + '<p class="note">まだ記録がありません</p></div>';
+  var cnt = {};
+  S.gacha.forEach(function (x) { cnt[x.prize] = (cnt[x.prize] || 0) + 1; });
+  Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; }).forEach(function (k) {
+    h += '<div style="font-size:13px;margin-top:6px">' + esc(k) + ' ・ ' + cnt[k] + '回</div><div style="background:var(--bd);border-radius:4px;height:6px"><div style="background:var(--ac);border-radius:4px;height:6px;width:' + Math.round(cnt[k] * 100 / S.gacha.length) + '%"></div></div>';
+  });
+  h += '<p class="note" style="margin-bottom:0">履歴（新しい順）</p>';
+  S.gacha.slice(-20).reverse().forEach(function (x) {
+    h += '<div class="row"><span>' + x.d + '</span><span>「' + esc(x.prize) + '」</span></div>';
+  });
+  return h + '</div>';
+}
+function viewSettings() {
+  var p = readPrev();
+  var h = themeCard() + tagCard() + prizeCard() + imageCard() + '<div class="card"><b style="font-size:14px">バックアップ</b><p class="note">ブラウザを変える時は、「書き出し」で出たデータを控え、新しい方に貼り付けて復元します。書き出しには、文字のデータだけが入ります（画像は含まれません）。</p>'
+    + '<textarea id="bk">' + esc(ui.bk) + '</textarea><button class="ghost" data-act="export" style="margin-bottom:8px">書き出し</button>'
+    + '<button class="ghost" data-act="import">内容を確認して復元</button>'
+    + (ui.msg ? '<p class="note" style="margin:10px 0 0;color:var(--tx)">' + esc(ui.msg) + '</p>' : '') + '</div>';
+  if (p && Array.isArray(p.items)) h += '<div class="card"><b style="font-size:14px">復元前の状態</b><p class="note">復元する直前のデータ（カード' + p.items.length + '枚）を1つだけ控えています。</p><button class="ghost" data-act="undo">復元前の状態に戻す</button></div>';
+  return h;
+}
+
+/* ===== 確認ダイアログ ===== */
+function viewDelTag(g) {
+  var n = S.items.filter(function (i) { return i.tags.indexOf(g) >= 0; }).length;
+  return '<div class="modal"><div class="card" style="margin:0;max-width:360px;width:100%"><b>タグ「' + esc(g) + '」を削除しますか？</b>'
+    + '<p class="note" style="margin:8px 0 14px">このタグがついた' + n + '枚のカードからタグを外します。カード自体は消えません。</p>'
+    + '<button data-act="tagyes" style="background:var(--r0);margin-bottom:8px">削除する</button><button data-act="tagno" class="ghost">キャンセル</button></div></div>';
+}
+function viewPending(p) {
+  var undo = p.kind === 'undo';
+  return '<div class="modal"><div class="card" style="margin:0;max-width:360px;width:100%"><b>' + (undo ? '復元前の状態に戻しますか？' : 'このデータで復元しますか？') + '</b>'
+    + '<p class="note" style="margin:8px 0 14px">復元後のカード: ' + p.cards + '枚（いまは' + S.items.length + '枚）'
+    + (p.skipped ? '<br>読み取れないカード' + p.skipped + '枚は除きます。' : '')
+    + '<br>いまのデータは上書きされますが、' + (undo ? 'この操作もあとで元に戻せます。' : '直前の状態を1つ控えて、あとで戻せます。') + '</p>'
+    + '<button data-act="impyes" style="margin-bottom:8px">' + (undo ? '戻す' : '復元する') + '</button><button data-act="impno" class="ghost">キャンセル</button></div></div>';
+}
+function viewDelete(it) {
+  return '<div class="modal"><div class="card" style="margin:0;max-width:360px;width:100%"><b>このカードを削除しますか？</b>'
+    + '<p class="note" style="margin:8px 0 14px">' + esc(it.front.slice(0, 60)) + '<br>削除すると復習の記録' + (it.hasF || it.hasB ? 'と、添付した画像' : '') + 'も消え、元に戻せません。</p>'
+    + '<button data-act="delyes" style="background:var(--r0);margin-bottom:8px">削除する</button><button data-act="delno" class="ghost">キャンセル</button></div></div>';
+}
+
+/* ===== 描画 ===== */
+function render() {
+  applyTheme();
+  var go = ui.sgo && !reduceMotion();   // 連続日数を更新した直後だけ、アニメを始める
+  ui.sgo = false;
+  if (go) { ui.sanim = 'roll'; ui.sroll = rollText(); ui.srcol = rollColor(); ui.sstart = Date.now(); }
+  var t = today();
+  var now = nowKey(), due = S.items.filter(function (i) { return i.due <= now; }).length;
+  var h = '<h1>🧠 復習リマインダー</h1><div class="stats">' + stat(due, '今日の復習') + stat(S.log[t] || 0, '今日やった数') + streakStat() + '</div>';
+  if (ui.err) h += '<div class="card" style="border-color:var(--r0);color:var(--r0);font-size:13px">' + esc(ui.err) + '</div>';
+  h += { today: viewToday, add: viewAdd, list: viewList, gacha: viewGacha, sched: viewSchedule, set: viewSettings }[ui.tab]();
+  if (ui.delId && byId(ui.delId)) h += viewDelete(byId(ui.delId));
+  if (ui.pending) h += viewPending(ui.pending);
+  if (ui.zoom) h += viewZoom(ui.zoom);
+  if (ui.delTag) h += viewDelTag(ui.delTag);
+  $('app').innerHTML = h;
+  if (go) startStreakAnim();
+  loadImgs();
+  $('nav').innerHTML = TABS.map(function (x) {
+    return '<button data-act="tab" data-v="' + x[0] + '" class="' + (ui.tab === x[0] ? 'on' : '') + '">' + x[1] + '</button>';
+  }).join('');
+}
+
+/* ===== 操作の受け付け ===== */
+function captureDrafts() {   // 画面を描き直す前に、入力途中の文字を退避する
+  if ($('f')) { ui.df = $('f').value; ui.db = $('b').value; }
+  if ($('ef')) ui.def = { f: $('ef').value, b: $('eb').value, i: $('ei').value };
+}
+var ACTIONS = {   // data-act の名前 → 処理。false を返すと、画面を描き直さない
+  tab: function (v) { ui.tab = v; ui.openId = null; ui.from = ''; ui.msg = ''; ui.imsg = ''; ui.pending = null; resetPimg('edit'); if (v === 'today') buildQueue(); if (v === 'set' && IMG.ok) imgSync().catch(noop); },
+  // 復習
+  show: function (v) { ui.shown[v] = true; },
+  pick: function (v, el) { ui.pick[v] = +el.dataset.d; },
+  unit: function (v, el) { var toHours = el.dataset.u === 'h'; if (toHours !== (ui.pick[v] < 1)) ui.pick[v] = toHours ? 3 / 24 : 1; },
+  sel: function (v, el) { ui.sel[v] = ui.sel[v] === +el.dataset.r ? null : +el.dataset.r; },   // 同じ記号をもう一度押すと取り消し
+  rate: function (v) { if (ui.sel[v] == null) return false; rate(v, ui.sel[v]); },
+  // タグ・絞り込み
+  atag: function (v) { ui.addTag = toggle(ui.addTag, v); },
+  etag: function (v) { ui.editTag = toggle(ui.editTag, v); },
+  mktag: function () {
+    var nm = makeTag($('nt').value);
+    if (!nm) return false;
+    if (ui.tab === 'add' && ui.addTag.indexOf(nm) < 0) ui.addTag = ui.addTag.concat([nm]);
+    else if (ui.tab === 'list' && ui.editTag.indexOf(nm) < 0) ui.editTag = ui.editTag.concat([nm]);
+  },
+  deltag: function (v) { ui.delTag = v; },
+  tagno: function () { ui.delTag = null; },
+  tagyes: function () { removeTag(); },
+  fopen: function () { ui.fopen = !ui.fopen; },
+  ftag: function (v) { var f = fcur(); f.tags = toggle(f.tags, v); if (ui.tab === 'today') buildQueue(); },
+  fmode: function (v) { fcur().mode = v; if (ui.tab === 'today') buildQueue(); },
+  fclear: function () { fcur().tags = []; if (ui.tab === 'today') buildQueue(); },
+  // カードの追加・編集・削除
+  add: function () { return addCard() === true; },   // 画像を保存する間('wait')は、終わってから描き直す
+  edit: function (v) { openEdit(v, false); },
+  editr: function (v) { openEdit(v, true); },   // 復習タブから開く（保存・戻るで復習タブに帰る）
+  back: function () { ui.openId = null; resetPimg('edit'); if (ui.from === 'today') { ui.tab = 'today'; ui.from = ''; } },
+  save: function () { return saveEdit() === true; },
+  del: function (v) { ui.delId = v; },
+  delno: function () { ui.delId = null; },
+  delyes: function () { deleteCard(); },
+  addhist: function () {   // 復習の記録を1件足す（復習回数も+1）
+    var it = byId(ui.openId), d = $('hd').value;
+    if (!it || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return false;
+    ui.hdate = d; ui.hsym = +$('hr').value;
+    it.hist.push({ d: d, r: ui.hsym, iv: it.iv }); it.n++;
+    sortHist(it); save();
+  },
+  delhist: function (v) {   // 記録を1件消す（復習回数も-1）
+    var it = byId(ui.openId);
+    if (it) { it.hist.splice(+v, 1); it.n = Math.max(0, it.n - 1); save(); }
+  },
+  // ガチャ・設定
+  draw: function () { if (drawGacha()) { ui.anim = true; setTimeout(function () { ui.anim = false; render(); }, 1300); } },
+  prize: function (v) { pickPrize(+v); },
+  pmode: function (v) { S.prizeRandom = v === 'rand'; save(); },
+  addprize: function () { return addPrize(); },
+  delprize: function (v) { S.prizes.splice(+v, 1); save(); },
+  theme: function (v) { S.theme = v; save(); },
+  // スケジュール
+  swk: function (v) { ui.sw = v === '0' ? 0 : Math.max(0, ui.sw + +v); ui.sday = null; },
+  sday: function (v) { ui.sday = v; },
+  shift: function (v, el) { var it = byId(v); if (it) { shiftDue(it, +el.dataset.n); save(); } },
+  // バックアップ
+  export: function () { $('bk').value = JSON.stringify(S, function (k, v) { return k === 'hasF' || k === 'hasB' ? undefined : v; }); $('bk').select(); return false; },   // 画像の印は書き出さない
+  import: function () { checkImport(); },
+  undo: function () { askUndo(); },
+  impyes: function () { applyPending(); },
+  impno: function () { ui.pending = null; },
+  // 画像
+  zoom: function (v, el) { ui.zoom = { k: el.dataset.k || '', u: el.dataset.u || '' }; },
+  zoomx: function () { ui.zoom = null; },
+  rmimg: function (v) { var sp = v.split(':'), cur = ui.pimg[sp[0]][sp[1]]; if (cur && cur.url) URL.revokeObjectURL(cur.url); ui.pimg[sp[0]][sp[1]] = null; },
+  imgclean: function () { imgClean(); return false; }
+};
+function openEdit(id, fromReview) {
+  var it = byId(id);
+  resetPimg('edit');
+  ui.tab = 'list'; ui.openId = id; ui.def = null; ui.editTag = it.tags.slice(); ui.from = fromReview ? 'today' : '';
+  window.scrollTo(0, 0);
+}
+document.addEventListener('click', function (e) {
+  var el = e.target.closest('[data-act]');
+  if (!el) return;
+  ui.err = ''; captureDrafts();
+  var fn = ACTIONS[el.dataset.act];
+  if (fn && fn(el.dataset.v, el) === false) return;
+  render();
+});
+$('app').addEventListener('change', function (e) {
+  if (e.target.dataset.pimg) {   // 画像を選んだとき
+    var sp = e.target.dataset.pimg.split(':'), file = e.target.files && e.target.files[0];
+    captureDrafts();
+    if (!file) return;
+    compressImage(file).then(function (blob) {
+      var cur = ui.pimg[sp[0]][sp[1]];
+      if (cur && cur.url) URL.revokeObjectURL(cur.url);
+      ui.pimg[sp[0]][sp[1]] = { blob: blob, url: URL.createObjectURL(blob) };
+      render();
+    }).catch(function (err) { ui.err = err && err.message === 'big' ? '画像が大きすぎます（20MBまで）。' : '画像を読み込めませんでした。'; render(); });
+    return;
+  }
+  if (e.target.dataset.hd != null || e.target.dataset.hr != null) {   // 復習の記録の直接編集
+    var hi = byId(ui.openId), isDate = e.target.dataset.hd != null, idx = +(isDate ? e.target.dataset.hd : e.target.dataset.hr);
+    if (hi && hi.hist[idx]) {
+      if (isDate) { if (/^\d{4}-\d{2}-\d{2}$/.test(e.target.value)) { hi.hist[idx].d = e.target.value; sortHist(hi); captureDrafts(); save(); render(); } }
+      else { hi.hist[idx].r = e.target.value === '' ? null : +e.target.value; save(); }
+    }
+    return;
+  }
+  if (e.target.dataset.due) {   // スケジュール: 次回の日時を直接指定
+    var di = byId(e.target.dataset.due), dv = e.target.value;
+    if (di && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(dv)) { di.due = dv.slice(11) === '00:00' ? dv.slice(0, 10) : dv; save(); render(); }
+    return;
+  }
+  if (e.target.id === 'so') { S.sort = e.target.value; save(); render(); }
+  if (e.target.id === 'rs') { S.rsort = e.target.value; save(); buildQueue(); render(); }
+});
+$('app').addEventListener('input', function (e) {
+  if (e.target.dataset.slide) {   // スライダー: 描き直さず、表示だけ更新（操作が途切れないように）
+    var sid = e.target.dataset.slide, raw = +e.target.value, box = e.target.closest('.iv');
+    var val = e.target.dataset.u === 'h' ? raw / 24 : raw;
+    ui.pick[sid] = val;
+    box.querySelector('.ivt').innerHTML = pickHead(val);
+    box.querySelectorAll('.tk').forEach(function (k) { k.classList.toggle('on', Math.abs(+k.dataset.d - val) < 1e-9); });
+    var rb = document.querySelector('[data-act="rate"][data-v="' + sid + '"]');
+    if (rb && ui.sel[sid] != null) rb.textContent = rateLabel(sid);
+    return;
+  }
+  if (e.target.id !== 's') return;
+  var p = e.target.selectionStart;
+  ui.filter = e.target.value; render();
+  var s = $('s'); s.focus(); s.setSelectionRange(p, p);
+});
+
+/* ===== 起動 ===== */
+document.addEventListener('visibilitychange', function () { if (!document.hidden && ui.tab === 'today' && refreshQueue()) render(); });
+setInterval(function () { if (ui.tab === 'today' && refreshQueue()) render(); }, 60000);
+load(); buildQueue(); render();
+imgInit();
+
+/* ===== オフライン対応（service worker） ===== */
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+}
+</script>
+</body>
+</html>
